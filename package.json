@@ -1,0 +1,194 @@
+{
+    "name": "gitea-vsc-ext",
+    "displayName": "gitea-vsc-ext",
+    "description": "Gitea Extension for vs-code",
+    "publisher": "culdo",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.70.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:giteaExt.opened-issues",
+        "onCommand:giteaExt.initRepo",
+        "onCommand:giteaExt.refreshIssues"
+    ],
+    "main": "./out/extension.js",
+    "icon": "resources/icon.png",
+    "contributes": {
+        "colors": [
+            {
+                "id": "giteaExt.open",
+                "description": "Color for open issue",
+                "defaults": {
+                    "dark": "#3fb94f",
+                    "light": "#3fb94f"
+                }
+            },
+            {
+                "id": "giteaExt.closed",
+                "description": "Color for closed issue",
+                "defaults": {
+                    "dark": "#a371f9",
+                    "light": "#a371f9"
+                }
+            }
+        ],
+        "viewsWelcome": [
+            {
+                "view": "giteaExt.opened-issues",
+                "contents": "Refresh to get Gitea opened issues .\n[Refresh](command:giteaExt.refreshIssues)"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "giteaExt",
+                    "title": "Gitea-Issues",
+                    "icon": "media/issue.svg"
+                }
+            ]
+        },
+        "views": {
+            "giteaExt": [
+                {
+                    "id": "giteaExt.opened-issues",
+                    "name": "Issues"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "giteaExt.viewIssue",
+                "title": "View"
+            },
+            {
+                "command": "giteaExt.listAllIssues",
+                "title": "List All"
+            },
+            {
+                "command": "giteaExt.listOpenIssues",
+                "title": "List Open"
+            },
+            {
+                "command": "giteaExt.listClosedIssues",
+                "title": "List Closed"
+            },
+            {
+                "command": "giteaExt.refreshIssues",
+                "title": "Refresh",
+                "icon": {
+                    "dark": "resources/dark/refresh.svg",
+                    "light": "resources/light/refresh.svg"
+                }
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "giteaExt.refreshIssues",
+                    "group": "navigation",
+                    "when": "view == giteaExt.opened-issues"
+                },
+                {
+                    "command": "giteaExt.listAllIssues"
+                },
+                {
+                    "command": "giteaExt.listOpenIssues"
+                },
+                {
+                    "command": "giteaExt.listClosedIssues"
+                }
+                
+            ]
+        },
+        "configuration": {
+            "title": "Gitea",
+            "properties": {
+                "gitea.token": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "",
+                    "description": "The token for the gitea server."
+                },
+                "gitea.instanceURL": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        "http://example.com:3000",
+                        "https://gitea.com"
+                    ],
+                    "description": "The remote gitea instance's url. Append base url to this string eg. http://localhost:8080 or http://localhost/gitea",
+                    "pattern": "^(https|http)://"
+                },
+                "gitea.owner": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "",
+                    "description": "The username for the repository."
+                },
+                "gitea.repo": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "",
+                    "description": "The repository name."
+                },
+                "gitea.sslVerify": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "true=Stop when cannot verify SSL certificate, false=Continue any way. Like git config 'sslVerify'."
+                },
+
+                "gitea.render": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "markdown",
+                    "enum": [
+                        "markdown",
+                        "html"
+                    ],
+                    "enumDescriptions": [
+                        "Render Issue in markdown format",
+                        "Render Issue in html format"
+                    ],
+                    "description": "Choose render to show issues in editor"
+                }, 
+                "gitea.debug": {
+                    "scope": "window",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable debug mode. Need to reload window to apply"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.70.0",
+        "@types/mocha": "^9.1.1",
+        "@types/node": "16.x",
+        "@types/markdown-it": "^12.2.3",
+        "eslint": "^8.20.0",
+        "typescript": "^4.7.4"
+    },
+    "dependencies": {
+        "axios": "^0.27.2",
+        "markdown-it": "^13.0.1"
+    },
+    "repository": {
+        "type": "github",
+        "url": "https://github.com/culdo/gitea-vsc-ext.git"
+    },
+    "license": "MIT"
+}
