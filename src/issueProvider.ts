@@ -15,6 +15,7 @@ export class IssueProvider implements vscode.TreeDataProvider<Issue> {
 
     constructor(state: string) {
         this.state = state;
+        this.refresh();
     }
 
     public getTreeItem(element: Issue): vscode.TreeItem | Thenable<vscode.TreeItem> {
