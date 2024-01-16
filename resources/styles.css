@@ -1,0 +1,17 @@
+.description {
+    font-size: 20pt
+}
+
+.info {
+    display: flex;
+    gap: 2%;
+}
+
+.info > div {
+    padding: 5px;
+    border: 2px solid;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

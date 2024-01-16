@@ -1,72 +1,24 @@
+import { Uri, Webview } from 'vscode';
 import { Issue } from './issue';
+import { getNonce } from './utils/getNonce';
+import { getUri } from './utils/getUri';
+import { readFileSync } from 'fs';
+import path = require('path');
+import MarkdownIt = require('markdown-it');
+const md = new MarkdownIt()
 
-export function showIssueHTML(issue: Issue) {
-  return `<body>
-    <h1>{{label}}</h1>
-    <table>
-      <tr>
-        <td>
-          Title
-        </td>
-        <td >
-          {{label}}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          State
-        </td>
-        <td>
-          {{state}}
-        </td>
-      </tr>
-      <tr >
-        <td>
-          Assignee
-        </td>
-        <td>
-          {{assignee}}
-        </td>
-      </tr>
-    </table>
-    <p style="font-size: 20pt">
-      {{description}}
-    </p>
-    </body>
-  `
-    .replace('{{label}}', issue.label)
-    .replace('{{state}}', issue.state)
-    .replace('{{assignee}}', issue.assignee)
-    .replace('{{description}}', issue.body)
-    .replace('{{label}}', issue.label);
-}
+export function showIssueHTML(issue: Issue, webview: Webview, extensionUri: Uri) {
+    const nonce = getNonce();
+    const styleUri = getUri(webview, extensionUri, ["resources", "styles.css"]);
 
-
-export function showIssueMD(issue: Issue) {
-    let md_labels = issue.labels.map(label => {
-        return '![' + label.name + '](https://img.shields.io/badge/' + label.name + '-' + label.color + '.svg)'
-    }).join(', ')
-
-    let assignees = issue.assignees === null ? "Nobody" : issue.assignees.map(assignee => { return assignee.login }).join(', ');
-
-    let md =  `# {{title}} (#{{id}})
-
-{{description}}
-
----
-
-* State: {{state}}
-* Assignee: {{assignee}}
-* Labels: {{labels}}
-* [See in browser]({{html_url}})
-    `
-    .replace('{{title}}', issue.title)
-    .replace('{{id}}', issue.issueId.toString())
-    .replace('{{description}}', issue.body)
-    .replace('{{state}}', issue.state)
-    .replace('{{assignee}}', assignees)
-    .replace('{{labels}}', md_labels)
-    .replace('{{html_url}}', issue.html_url)
-
-    return md
+    const template = readFileSync(path.join(extensionUri.fsPath, "resources", "issue-template.html"), {
+        encoding: "utf-8"
+    })
+    return template
+        .replace('{{styleUri}}', styleUri)
+        .replace('{{creator}}', issue.creator)
+        .replace('{{state}}', issue.state)
+        .replace('{{assignee}}', issue.assignee)
+        .replace('{{description}}', md.render(issue.body))
+        .replace(/{{label}}/g, issue.label);
 }

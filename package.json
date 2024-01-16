@@ -5,15 +5,10 @@
     "publisher": "culdo",
     "version": "0.0.1",
     "engines": {
-        "vscode": "^1.70.0"
+        "vscode": "^1.80.0"
     },
     "categories": [
         "Other"
-    ],
-    "activationEvents": [
-        "onView:giteaExt.opened-issues",
-        "onCommand:giteaExt.initRepo",
-        "onCommand:giteaExt.refreshIssues"
     ],
     "main": "./out/extension.js",
     "icon": "resources/icon.png",
@@ -79,10 +74,7 @@
             {
                 "command": "giteaExt.refreshIssues",
                 "title": "Refresh",
-                "icon": {
-                    "dark": "resources/dark/refresh.svg",
-                    "light": "resources/light/refresh.svg"
-                }
+                "icon": "$(refresh)"
             }
         ],
         "menus": {
@@ -93,13 +85,16 @@
                     "when": "view == giteaExt.opened-issues"
                 },
                 {
-                    "command": "giteaExt.listAllIssues"
+                    "command": "giteaExt.listAllIssues",
+                    "when": "view == giteaExt.opened-issues"
                 },
                 {
-                    "command": "giteaExt.listOpenIssues"
+                    "command": "giteaExt.listOpenIssues",
+                    "when": "view == giteaExt.opened-issues"
                 },
                 {
-                    "command": "giteaExt.listClosedIssues"
+                    "command": "giteaExt.listClosedIssues",
+                    "when": "view == giteaExt.opened-issues"
                 }
             ]
         },
@@ -144,7 +139,7 @@
                 "gitea.render": {
                     "scope": "resource",
                     "type": "string",
-                    "default": "markdown",
+                    "default": "html",
                     "enum": [
                         "markdown",
                         "html"

@@ -40,7 +40,6 @@ export class IssueProvider implements vscode.TreeDataProvider<Issue> {
                 c.assignee = c.assignee === null ? 'Nobody' : c.assignee.login;
                 c.assignees = c.assignees;
                 c.creator = c.user.login;
-                c.id = c.id.toString();
             });
             page++;
             if (issuesOfPage.length < 10) {
@@ -78,14 +77,19 @@ export class IssueProvider implements vscode.TreeDataProvider<Issue> {
         return this.createChildNodes(element, this.issueList);
     }
 
+    private createTreeItemWithIcon(label: string) {
+        const treeItem = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None)
+        treeItem.iconPath = new vscode.ThemeIcon("circle-outline")
+        return treeItem
+    }
+
     private createChildNodes(element: Issue | undefined, issues: Issue[]) {
         for (const issue of issues) {
             if (element === issue) {
                 let childItems: vscode.TreeItem[] = [
-                    new vscode.TreeItem('Assignee - ' + element.assignee, vscode.TreeItemCollapsibleState.None),
-                    new vscode.TreeItem('State - ' + element.state, vscode.TreeItemCollapsibleState.None),
-                    new vscode.TreeItem('ID - ' + element.issueId, vscode.TreeItemCollapsibleState.None),
-                    new vscode.TreeItem('From - ' + element.creator, vscode.TreeItemCollapsibleState.None),
+                    this.createTreeItemWithIcon('Assignee - ' + element.assignee),
+                    this.createTreeItemWithIcon('State - ' + element.state),
+                    this.createTreeItemWithIcon('Creator - ' + element.creator),
                 ];
                 return Promise.resolve(childItems);
             }

@@ -1,13 +1,11 @@
 import * as vscode from 'vscode';
 
-import { showIssueHTML, showIssueMD } from './template.issues';
 import { Issue } from './issue';
 import { IssueProvider } from './issueProvider';
-import { Config } from './config';
-import MarkdownIt = require('markdown-it');
 import { Logger } from './logger';
+import { showIssueHTML, } from './template.issues';
 
-export function showIssueInWebPanel(issue: Issue) {
+export function showIssueInWebPanel(issue: Issue, context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
         'issue',
         issue.label,
@@ -16,15 +14,12 @@ export function showIssueInWebPanel(issue: Issue) {
             enableScripts: true
         }
     );
-
-    const config = new Config();
-
-    if (config.render == 'html') {
-        panel.webview.html = showIssueHTML(issue);
-    } else {
-        let markdownIt = new MarkdownIt()
-        panel.webview.html = markdownIt.render(showIssueMD(issue));
+    panel.iconPath = {
+        light: vscode.Uri.joinPath(context.extensionUri, "media", "issue.svg"),
+        dark: vscode.Uri.joinPath(context.extensionUri, "media", "issue.svg")
     }
+
+    panel.webview.html = showIssueHTML(issue, panel.webview, context.extensionUri);
 
     return panel;
 }
@@ -44,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
         const issueOpenable = openIssues.find((c) => c.issueId === issue.issueId) === undefined;
 
         if (issueOpenable) {
-            const panel = showIssueInWebPanel(issue);
+            const panel = showIssueInWebPanel(issue, context);
             openIssues.push(issue);
             panel.onDidDispose((event) => {
                 openIssues.splice(openIssues.indexOf(issue), 1);
