@@ -50,7 +50,7 @@ When you've finished you can press the refresh button in the open issues section
 
 ## Issue colors
 
-![Issues with multiple colors](./media/gitea-issues.png)
+![Issues with multiple colors](./media/gitea-ext.png)
 
 In order to get nice looking issue icons in multiple colors (of your choice) you just need to assign a label to your issue. The color is being fetched automatically. In most cases you need to restart visual studio code to apply the icons in the issues tab if you've changed them though.
 
