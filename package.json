@@ -164,6 +164,7 @@
         "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
         "esbuild": "npm run esbuild-base -- --sourcemap",
         "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+        "watch": "tsc -watch -p ./",
         "test-compile": "tsc -p ./",
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
@@ -180,6 +181,7 @@
     },
     "dependencies": {
         "axios": "^0.27.2",
+        "gitea-js": "^1.20.1",
         "markdown-it": "^13.0.1"
     },
     "repository": {

@@ -46,11 +46,11 @@ export class Config implements ConfigTypes {
         this.storage.update('token', value);
     }
 
-    public set instanceUrl(value: string) {
+    public set instanceURL(value: string) {
         this.storage.update('instanceURL', value);
     }
 
-    public get instanceURL(): any {
+    public get instanceURL(): string {
         return this.loadConfigValue('instanceURL', 'string');
     }
 

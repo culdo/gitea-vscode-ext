@@ -8,7 +8,7 @@ import { showIssueHTML, } from './template.issues';
 export function showIssueInWebPanel(issue: Issue, context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
         'issue',
-        issue.label,
+        issue.title,
         vscode.ViewColumn.Active,
         {
             enableScripts: true
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider('giteaExt.opened-issues', allIssuesProvider);
 
     vscode.commands.registerCommand('giteaExt.viewIssue', (issue: Issue) => {
-        const issueOpenable = openIssues.find((c) => c.issueId === issue.issueId) === undefined;
+        const issueOpenable = openIssues.find((c) => c.id === issue.id) === undefined;
 
         if (issueOpenable) {
             const panel = showIssueInWebPanel(issue, context);

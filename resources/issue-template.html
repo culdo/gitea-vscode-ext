@@ -9,15 +9,22 @@
 </head>
 
 <body>
-    <h1>{{label}}</h1>
-    <div class="info">
-        <div>Creator: {{creator}}</div>
-        <div>State: {{state}}</div>
-        <div>Assignee: {{assignee}}</div>
+    <div class="header">
+        <h1 class="title">{{label}}</h1>
+        <p class="creator"><b>{{creator}}</b> opened on {{created_at}}</p>
+        <div class="info">
+            <div>State: {{state}}</div>
+            <div>Assignee: {{assignee}}</div>
+        </div>
     </div>
-    <p class="description">
-        {{description}}
-    </p>
+    <div class="comment">
+        <div class="comment-header">
+            <b>{{creator}}</b> commented on {{created_at}}
+        </div>
+        <div class="comment-content">
+            {{description}}
+        </div>
+    </div>
 </body>
 
 </html>
