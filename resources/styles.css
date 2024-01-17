@@ -59,6 +59,15 @@
     color: rgb(204, 204, 204);
 }
 
-.comment-content {
+.comment-body {
     padding: 16px;
+    font-size: 14px;
+}
+
+.comment-body > *:first-child {
+    margin-top: 0
+}
+
+.comment-body > *:last-child {
+    margin-bottom: 0
 }

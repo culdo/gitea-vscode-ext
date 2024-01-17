@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}}; font-src {{cspSource}}; script-src 'nonce-{{nonce}}';">
     <title>{{label}}</title>
     <link rel="stylesheet" href="{{styleUri}}">
 </head>
@@ -17,14 +18,7 @@
             <div>Assignee: {{assignee}}</div>
         </div>
     </div>
-    <div class="comment">
-        <div class="comment-header">
-            <b>{{creator}}</b> commented on {{created_at}}
-        </div>
-        <div class="comment-content">
-            {{description}}
-        </div>
-    </div>
+    {{comments}}
 </body>
 
 </html>
